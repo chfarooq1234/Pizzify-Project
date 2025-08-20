@@ -1,0 +1,57 @@
+@model OnlinePizzaWebApplication.Models.PizzaIngredients
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>PizzaIngredients</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="PizzaId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="PizzaId" class ="form-control" asp-items="ViewBag.PizzaId" id="pizzaId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IngredientId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="IngredientId" class ="form-control" asp-items="ViewBag.IngredientId" id="IngredientId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit" type="submit" value="Add Ingredient"/>
+                @*<a asp-controller="PizzaIngredient" asp-action="Create" asp-route-pizzaIngredients="" class="btn btn-danger">Add Ingredient</a>*@
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+     $(document).ready(function () {
+        $("#submit").click(function () {
+            var id = $("#pizzaId").val();
+            var _date = $("#IngredientId").val();
+             $.ajax({
+            url: '@Url.Action("Create", "PizzaIngredient")',
+            type: "Post",
+            data: { Id: 0, PizzaId:id},
+            success: function (result) {
+                Console.Log();
+            }
+        });
+        });
+});
+</script>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

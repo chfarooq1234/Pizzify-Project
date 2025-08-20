@@ -1,0 +1,99 @@
+﻿@model CustomViewModel
+
+
+@{
+    ViewData["Title"] = "Create Customized Pizza";
+}
+
+<h2>Create</h2>
+
+<form>
+    <div class="form-horizontal">
+        <h4>Pizzas</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="CategoriesId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CategoriesId" class="form-control" asp-items="ViewBag.CategoriesId" id="CategoryId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IngredientId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="IngredientId" class="form-control" asp-items="ViewBag.IngredientId" id="Ingredient"></select>
+            </div>
+        </div>
+        <div id="price" class="pull-right">@Model.Price.ToString("c")</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="Create" type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+     $(document).ready(function () {
+        $("#Ingredient").on("change",function () {
+            var id = $("#Ingredient").val();
+            var _date = $("#CategoryId").val();
+            console.log(id);
+            console.log(_date);
+
+             $.ajax({
+            url: '@Url.Action("UpdatePrice", "Pizzas")',
+            type: "Post",
+            data: { categoryId: _date, IngredientId:id},
+            success: function (result) {
+                $("#price").text(result);
+            }
+        });
+        });
+    $("#CategoryId").on("change",function () {
+            var id = $("#Ingredient").val();
+            var _date = $("#CategoryId").val();
+            console.log(id);
+            console.log(_date);
+
+             $.ajax({
+            url: '@Url.Action("UpdatePrice", "Pizzas")',
+            type: "Post",
+            data: { categoryId: _date, IngredientId:id},
+            success: function (result) {
+                $("#price").text(result);
+            }
+        });
+        });
+
+    $("#Create").click(function ()
+    {
+       var id = $("#Ingredient").val();
+            var _date = $("#CategoryId").val();
+    var price = $("#price").text();
+       $.ajax({
+            url: '@Url.Action("CustomAddToShoppingCart", "ShoppingCart")',
+            type: "Post",
+            data: { ingredeientId: id, toppingsId:_date,price:price},
+            success: function (result) {
+                console.log("Done");
+                location.reload();
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+     alert("some error");
+  }
+    });
+    });
+
+});
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
