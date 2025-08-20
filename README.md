@@ -23,4 +23,4 @@ Users can browse pizzas, add them to the cart, and place an order.
 ## 📂 Project Setup
 1. Clone this repository:  
    ```bash
-   git clone https://github.com/yourusername/online-pizza-order.git
+   git clone https://github.com/chfarooq1234/Pizzify-Project
